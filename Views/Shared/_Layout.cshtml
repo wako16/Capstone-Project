@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+Design by TEMPLATED
+http://templated.co
+Released for free under the Creative Commons Attribution License
+
+Name       : Plasma
+Description: A two-column, fixed-width design with dark color scheme.
+Version    : 1.0
+Released   : 20121222
+
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>Wako Capstone</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+    <link href="https://fonts.googleapis.com/css?family=Oswald:400,300" rel="stylesheet" type="text/css" />
+    <link href="~/Content/style.css" rel="stylesheet" type="text/css" media="screen" />
+</head>
+<body>
+    <div id="wrapper" class="@ViewBag.viewwrappeerClass"~'">
+        <div id="menu-wrapper">
+            <div id="menu" class="container">
+                <ul>
+                    <li class="current_page_item"><a href="#">Homepage</a></li>
+                    <li>@Html.ActionLink("Parks", "Index", "Parks")</li>
+                    <li>@Html.ActionLink("Reservations", "Myreservation", "Reservations")</li>
+
+                    <li>@Html.ActionLink("Make a Reservation", "Create", "Reservations")</li>
+                    @Html.Partial("_LoginPartial")
+                </ul>
+            </div>
+        </div>
+        
+        <div id="header">
+            <div id="logo" class="container">
+                <h1><a href="#">Lets Run </a></h1>
+            </div>
+        </div>
+        <div id="page" class="container">
+            @RenderBody()
+            <!-- end #sidebar -->
+        </div>
+        <!-- end #page -->
+
+    </div>
+    <div id="footer-content" class="container">
+     
+    </div>
+
+
+    @Scripts.Render("~/bundles/jquery")
+    <script type="text/javascript" src="~/Scripts/datetimepicker-master/jquery.datetimepicker.js" >
+        
+    </script>
+    @RenderSection("scripts", required: false)
+    <!-- end #footer -->
+</body>
+</html>

@@ -1,0 +1,93 @@
+﻿@using Microsoft.AspNet.Identity
+
+@model IEnumerable<Cap.Models.Review>
+    @{ var userid = User.Identity.GetUserId();}
+
+
+<h2>Reviews</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.PriceRating)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AmentiesRating)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CommentText)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Customer.Name)
+        </th>
+       
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+               
+            
+            
+            
+            
+            
+            @for (int i = 1; i <= 5; i++)
+                 {
+                    var starclass = "fa fa-star";
+                    if (i < item.PriceRating)
+                    {
+                        starclass += " Checked";
+
+                    }
+                    <span class="@starclass">
+                    </span>
+
+             }
+          
+
+
+
+
+
+        </td>
+        <td>
+                
+            
+            
+            
+            @for (int i = 1; i <= 5; i++)
+                 {
+                    var starclass = "fa fa-star";
+                    if (i < item.AmentiesRating)
+                    {
+                        starclass += " Checked";
+
+                    }
+                    <span class="@starclass">
+                    </span>
+
+                 }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CommentText)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Customer.Name)
+        </td>
+       
+        <td>
+            @if (item.CustomerId == userid) 
+             { 
+               <text>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+              </text>
+             }
+        </td>
+    </tr>
+}
+
+</table>

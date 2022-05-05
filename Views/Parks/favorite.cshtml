@@ -1,0 +1,40 @@
+﻿@model Cap.Models.Park
+
+@{
+    ViewBag.Title = "favorite";
+}
+
+<h2>favorite</h2>
+
+<h3>Are you sure you want to favorite this?</h3>
+<div>
+    <h4>Park</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ParkAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ParkAddress)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Favorite:)" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

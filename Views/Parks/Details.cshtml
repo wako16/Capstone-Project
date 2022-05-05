@@ -1,0 +1,169 @@
+﻿@model Cap.Models.Park
+
+@{var encodedLocation = HttpUtility.UrlEncode(Model.Name + ", " + Model.ParkAddress);
+    var macURL = "https://www.google.com/maps/embed/v1/place?key=AIzaSyCFVmUZmSxs7skee84CJ7XPZaCQH1Ttels&q=" + encodedLocation;
+    ViewBag.Title = "Details";
+}
+
+
+<h2>Details</h2>
+
+<div>
+    <h4>Park</h4>
+    <hr />
+    <iframe width="600"
+            height="450"
+            frameborder="0" style="border:0"
+            src="@macURL" allowfullscreen>
+    </iframe>
+
+
+
+    <div>
+        @Html.ActionLink("Please leave a review for this park", "Create", "Reviews", new { id = Model.Id }, null)
+        <div>
+            Price
+            <span>
+                @for (int i = 1; i <= 5; i++)
+                {
+                    var starclass = "fa fa-star";
+                    if (i < Model.PriceAverage)
+                    {
+                        starclass += " Checked";
+
+                    }
+                    <span class="@starclass">
+                    </span>
+
+                }
+            </span>
+        </div>
+
+        <div>
+            Rating Amentites
+            <span>
+                @for (int i = 1; i <= 5; i++)
+                {
+                    var starclass = "fa fa-star";
+                    if (i < Model.amentiesAverage)
+                    {
+                        starclass += " Checked";
+
+                    }
+                    <span class="@starclass">
+                    </span>
+
+                }
+            </span>
+        </div>
+    </div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ParkAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ParkAddress)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Sports)
+        </dt>
+
+        <dd>
+            @foreach (var sport in Model.Sports)
+            {
+                <div>
+                    @sport.Name
+                </div>
+            }
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LineItems)
+        </dt>
+
+        <dd>
+            @foreach (var Lineitem in Model.LineItems)
+            {
+                <div>
+                    @Lineitem.Reservation.OrderDateTime
+                </div>
+            }
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ParkProducts)
+        </dt>
+
+        <dd>
+            @foreach (var products in Model.ParkProducts)
+            {
+                <div>
+                    @products.Product.Name ---------------- @products.Price
+                </div>
+            }
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Courts)
+        </dt>
+
+        <dd>
+            @foreach (var place in Model.Courts)
+            {
+                <div>
+                    @Html.ActionLink(place.Name, "Details", "Courts", new { id = place.Id })
+                </div>
+            }
+        </dd>
+
+    </dl>
+</div>
+<div class="reviewSection">
+    @Html.Action("Index", "Reviews", new { id = Model.Id })
+</div>
+<div>
+    @Html.ActionLink("Please leave a review for this park", "Create", "Reviews", new { id = Model.Id }, null)
+    <div>
+        Price
+        <span>
+            @for (int i = 1; i <= 5; i++)
+            {
+                var starclass = "fa fa-star";
+                if (i < Model.PriceAverage)
+                {
+                    starclass += " Checked";
+
+                }
+                <span class="@starclass">
+                </span>
+
+            }
+        </span>
+    </div>
+
+    <div>
+        Rating Amentites
+        <span>
+            @for (int i = 1; i <= 5; i++)
+            {
+                var starclass = "fa fa-star";
+                if (i < Model.amentiesAverage)
+                {
+                    starclass += " Checked";
+
+                }
+                <span class="@starclass">
+                </span>
+
+            }
+        </span>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
