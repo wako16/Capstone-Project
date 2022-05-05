@@ -1,0 +1,730 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="CAPModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Court">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ParkId" Type="int" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FavoritePark">
+          <Key>
+            <PropertyRef Name="CustomerId" />
+            <PropertyRef Name="ParkId" />
+          </Key>
+          <Property Name="CustomerId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ParkId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LineItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ReservationId" Type="int" Nullable="false" />
+          <Property Name="ParkId" Type="int" Nullable="false" />
+          <Property Name="SportId" Type="int" Nullable="false" />
+          <Property Name="UnitPrice" Type="money" />
+        </EntityType>
+        <EntityType Name="Park">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ParkAddress" Type="nvarchar" MaxLength="1000" />
+        </EntityType>
+        <EntityType Name="ParkProduct">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ParkId" Type="int" Nullable="false" />
+          <Property Name="ProductId" Type="int" Nullable="false" />
+          <Property Name="Price" Type="money" />
+        </EntityType>
+        <EntityType Name="ParkSport">
+          <Key>
+            <PropertyRef Name="ParkId" />
+            <PropertyRef Name="SportId" />
+          </Key>
+          <Property Name="ParkId" Type="int" Nullable="false" />
+          <Property Name="SportId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="Reservation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="OrderDateTime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Review">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ParkId" Type="int" Nullable="false" />
+          <Property Name="PriceRating" Type="int" />
+          <Property Name="AmentiesRating" Type="int" />
+          <Property Name="CommentText" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="Sport">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Court__ParkId__2C3393D0">
+          <End Role="Park" Type="Self.Park" Multiplicity="0..1" />
+          <End Role="Court" Type="Self.Court" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Park">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Court">
+              <PropertyRef Name="ParkId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__FavoriteP__Custo__36B12243">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="FavoritePark" Type="Self.FavoritePark" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="FavoritePark">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__FavoriteP__ParkI__37A5467C">
+          <End Role="Park" Type="Self.Park" Multiplicity="1" />
+          <End Role="FavoritePark" Type="Self.FavoritePark" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Park">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FavoritePark">
+              <PropertyRef Name="ParkId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LineItem__ParkId__4222D4EF">
+          <End Role="Park" Type="Self.Park" Multiplicity="1" />
+          <End Role="LineItem" Type="Self.LineItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Park">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LineItem">
+              <PropertyRef Name="ParkId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LineItem__Reserv__412EB0B6">
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="1" />
+          <End Role="LineItem" Type="Self.LineItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Reservation">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LineItem">
+              <PropertyRef Name="ReservationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LineItem__SportI__4316F928">
+          <End Role="Sport" Type="Self.Sport" Multiplicity="1" />
+          <End Role="LineItem" Type="Self.LineItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sport">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LineItem">
+              <PropertyRef Name="SportId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ParkProdu__ParkI__30F848ED">
+          <End Role="Park" Type="Self.Park" Multiplicity="1" />
+          <End Role="ParkProduct" Type="Self.ParkProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Park">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ParkProduct">
+              <PropertyRef Name="ParkId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ParkProdu__Produ__31EC6D26">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="ParkProduct" Type="Self.ParkProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ParkProduct">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ParkSport__ParkI__286302EC">
+          <End Role="Park" Type="Self.Park" Multiplicity="1" />
+          <End Role="ParkSport" Type="Self.ParkSport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Park">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ParkSport">
+              <PropertyRef Name="ParkId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ParkSport__Sport__29572725">
+          <End Role="Sport" Type="Self.Sport" Multiplicity="1" />
+          <End Role="ParkSport" Type="Self.ParkSport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sport">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ParkSport">
+              <PropertyRef Name="SportId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Reservati__Custo__3E52440B">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Reservation">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Review__Customer__3A81B327">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Review" Type="Self.Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Review__ParkId__3B75D760">
+          <End Role="Park" Type="Self.Park" Multiplicity="1" />
+          <End Role="Review" Type="Self.Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Park">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="ParkId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CAPModelStoreContainer">
+          <EntitySet Name="Court" EntityType="Self.Court" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FavoritePark" EntityType="Self.FavoritePark" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LineItem" EntityType="Self.LineItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Park" EntityType="Self.Park" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ParkProduct" EntityType="Self.ParkProduct" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ParkSport" EntityType="Self.ParkSport" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Reservation" EntityType="Self.Reservation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Review" EntityType="Self.Review" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sport" EntityType="Self.Sport" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Court__ParkId__2C3393D0" Association="Self.FK__Court__ParkId__2C3393D0">
+            <End Role="Park" EntitySet="Park" />
+            <End Role="Court" EntitySet="Court" />
+          </AssociationSet>
+          <AssociationSet Name="FK__FavoriteP__Custo__36B12243" Association="Self.FK__FavoriteP__Custo__36B12243">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="FavoritePark" EntitySet="FavoritePark" />
+          </AssociationSet>
+          <AssociationSet Name="FK__FavoriteP__ParkI__37A5467C" Association="Self.FK__FavoriteP__ParkI__37A5467C">
+            <End Role="Park" EntitySet="Park" />
+            <End Role="FavoritePark" EntitySet="FavoritePark" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LineItem__ParkId__4222D4EF" Association="Self.FK__LineItem__ParkId__4222D4EF">
+            <End Role="Park" EntitySet="Park" />
+            <End Role="LineItem" EntitySet="LineItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LineItem__Reserv__412EB0B6" Association="Self.FK__LineItem__Reserv__412EB0B6">
+            <End Role="Reservation" EntitySet="Reservation" />
+            <End Role="LineItem" EntitySet="LineItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LineItem__SportI__4316F928" Association="Self.FK__LineItem__SportI__4316F928">
+            <End Role="Sport" EntitySet="Sport" />
+            <End Role="LineItem" EntitySet="LineItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ParkProdu__ParkI__30F848ED" Association="Self.FK__ParkProdu__ParkI__30F848ED">
+            <End Role="Park" EntitySet="Park" />
+            <End Role="ParkProduct" EntitySet="ParkProduct" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ParkProdu__Produ__31EC6D26" Association="Self.FK__ParkProdu__Produ__31EC6D26">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="ParkProduct" EntitySet="ParkProduct" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ParkSport__ParkI__286302EC" Association="Self.FK__ParkSport__ParkI__286302EC">
+            <End Role="Park" EntitySet="Park" />
+            <End Role="ParkSport" EntitySet="ParkSport" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ParkSport__Sport__29572725" Association="Self.FK__ParkSport__Sport__29572725">
+            <End Role="Sport" EntitySet="Sport" />
+            <End Role="ParkSport" EntitySet="ParkSport" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Reservati__Custo__3E52440B" Association="Self.FK__Reservati__Custo__3E52440B">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Reservation" EntitySet="Reservation" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Review__Customer__3A81B327" Association="Self.FK__Review__Customer__3A81B327">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Review" EntitySet="Review" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Review__ParkId__3B75D760" Association="Self.FK__Review__ParkId__3B75D760">
+            <End Role="Park" EntitySet="Park" />
+            <End Role="Review" EntitySet="Review" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CAPModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Court">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ParkId" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Park" Relationship="CAPModel.FK__Court__ParkId__2C3393D0" FromRole="Court" ToRole="Park" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Reservations" Relationship="Self.FK__Reservati__Custo__3E52440B" FromRole="Customer" ToRole="Reservation" />
+          <NavigationProperty Name="Reviews" Relationship="Self.FK__Review__Customer__3A81B327" FromRole="Customer" ToRole="Review" />
+          <NavigationProperty Name="Parks" Relationship="CAPModel.FavoritePark" FromRole="Customer" ToRole="Park" />
+        </EntityType>
+        <EntityType Name="LineItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ReservationId" Type="Int32" Nullable="false" />
+          <Property Name="ParkId" Type="Int32" Nullable="false" />
+          <Property Name="SportId" Type="Int32" Nullable="false" />
+          <Property Name="UnitPrice" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="Reservation" Relationship="Self.FK__LineItem__Reserv__412EB0B6" FromRole="LineItem" ToRole="Reservation" />
+          <NavigationProperty Name="Sport" Relationship="Self.FK__LineItem__SportI__4316F928" FromRole="LineItem" ToRole="Sport" />
+          <NavigationProperty Name="Park" Relationship="CAPModel.FK__LineItem__ParkId__4222D4EF" FromRole="LineItem" ToRole="Park" />
+        </EntityType>
+        <EntityType Name="ParkProduct">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ParkId" Type="Int32" Nullable="false" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="Product" Relationship="Self.FK__ParkProdu__Produ__31EC6D26" FromRole="ParkProduct" ToRole="Product" />
+          <NavigationProperty Name="Park" Relationship="CAPModel.FK__ParkProdu__ParkI__30F848ED" FromRole="ParkProduct" ToRole="Park" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ParkProducts" Relationship="Self.FK__ParkProdu__Produ__31EC6D26" FromRole="Product" ToRole="ParkProduct" />
+        </EntityType>
+        <EntityType Name="Reservation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="OrderDateTime" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK__Reservati__Custo__3E52440B" FromRole="Reservation" ToRole="Customer" />
+          <NavigationProperty Name="LineItems" Relationship="Self.FK__LineItem__Reserv__412EB0B6" FromRole="Reservation" ToRole="LineItem" />
+        </EntityType>
+        <EntityType Name="Review">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ParkId" Type="Int32" Nullable="false" />
+          <Property Name="PriceRating" Type="Int32" />
+          <Property Name="AmentiesRating" Type="Int32" />
+          <Property Name="CommentText" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK__Review__Customer__3A81B327" FromRole="Review" ToRole="Customer" />
+          <NavigationProperty Name="Park" Relationship="CAPModel.FK__Review__ParkId__3B75D760" FromRole="Review" ToRole="Park" />
+        </EntityType>
+        <EntityType Name="Sport">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="LineItems" Relationship="Self.FK__LineItem__SportI__4316F928" FromRole="Sport" ToRole="LineItem" />
+          <NavigationProperty Name="Parks" Relationship="CAPModel.ParkSport" FromRole="Sport" ToRole="Park" />
+        </EntityType>
+        <Association Name="FK__Reservati__Custo__3E52440B">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Reservation">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Review__Customer__3A81B327">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Review" Type="Self.Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LineItem__Reserv__412EB0B6">
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="1" />
+          <End Role="LineItem" Type="Self.LineItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Reservation">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LineItem">
+              <PropertyRef Name="ReservationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LineItem__SportI__4316F928">
+          <End Role="Sport" Type="Self.Sport" Multiplicity="1" />
+          <End Role="LineItem" Type="Self.LineItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sport">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LineItem">
+              <PropertyRef Name="SportId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ParkProdu__Produ__31EC6D26">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="ParkProduct" Type="Self.ParkProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ParkProduct">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CAPEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Courts" EntityType="Self.Court" />
+          <EntitySet Name="Customers" EntityType="Self.Customer" />
+          <EntitySet Name="LineItems" EntityType="Self.LineItem" />
+          <EntitySet Name="ParkProducts" EntityType="Self.ParkProduct" />
+          <EntitySet Name="Products" EntityType="Self.Product" />
+          <EntitySet Name="Reservations" EntityType="Self.Reservation" />
+          <EntitySet Name="Reviews" EntityType="Self.Review" />
+          <EntitySet Name="Sports" EntityType="Self.Sport" />
+          <AssociationSet Name="FK__Reservati__Custo__3E52440B" Association="Self.FK__Reservati__Custo__3E52440B">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Reservation" EntitySet="Reservations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Review__Customer__3A81B327" Association="Self.FK__Review__Customer__3A81B327">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Review" EntitySet="Reviews" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LineItem__Reserv__412EB0B6" Association="Self.FK__LineItem__Reserv__412EB0B6">
+            <End Role="Reservation" EntitySet="Reservations" />
+            <End Role="LineItem" EntitySet="LineItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LineItem__SportI__4316F928" Association="Self.FK__LineItem__SportI__4316F928">
+            <End Role="Sport" EntitySet="Sports" />
+            <End Role="LineItem" EntitySet="LineItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ParkProdu__Produ__31EC6D26" Association="Self.FK__ParkProdu__Produ__31EC6D26">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="ParkProduct" EntitySet="ParkProducts" />
+          </AssociationSet>
+          <EntitySet Name="Parks" EntityType="CAPModel.Park" />
+          <AssociationSet Name="FK__Court__ParkId__2C3393D0" Association="CAPModel.FK__Court__ParkId__2C3393D0">
+            <End Role="Park" EntitySet="Parks" />
+            <End Role="Court" EntitySet="Courts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LineItem__ParkId__4222D4EF" Association="CAPModel.FK__LineItem__ParkId__4222D4EF">
+            <End Role="Park" EntitySet="Parks" />
+            <End Role="LineItem" EntitySet="LineItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ParkProdu__ParkI__30F848ED" Association="CAPModel.FK__ParkProdu__ParkI__30F848ED">
+            <End Role="Park" EntitySet="Parks" />
+            <End Role="ParkProduct" EntitySet="ParkProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Review__ParkId__3B75D760" Association="CAPModel.FK__Review__ParkId__3B75D760">
+            <End Role="Park" EntitySet="Parks" />
+            <End Role="Review" EntitySet="Reviews" />
+          </AssociationSet>
+          <AssociationSet Name="FavoritePark" Association="CAPModel.FavoritePark">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Park" EntitySet="Parks" />
+          </AssociationSet>
+          <AssociationSet Name="ParkSport" Association="CAPModel.ParkSport">
+            <End Role="Park" EntitySet="Parks" />
+            <End Role="Sport" EntitySet="Sports" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Park">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ParkAddress" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Courts" Relationship="CAPModel.FK__Court__ParkId__2C3393D0" FromRole="Park" ToRole="Court" />
+          <NavigationProperty Name="LineItems" Relationship="CAPModel.FK__LineItem__ParkId__4222D4EF" FromRole="Park" ToRole="LineItem" />
+          <NavigationProperty Name="ParkProducts" Relationship="CAPModel.FK__ParkProdu__ParkI__30F848ED" FromRole="Park" ToRole="ParkProduct" />
+          <NavigationProperty Name="Reviews" Relationship="CAPModel.FK__Review__ParkId__3B75D760" FromRole="Park" ToRole="Review" />
+          <NavigationProperty Name="Customers" Relationship="CAPModel.FavoritePark" FromRole="Park" ToRole="Customer" />
+          <NavigationProperty Name="Sports" Relationship="CAPModel.ParkSport" FromRole="Park" ToRole="Sport" />
+        </EntityType>
+        <Association Name="FK__Court__ParkId__2C3393D0">
+          <End Type="CAPModel.Park" Role="Park" Multiplicity="0..1" />
+          <End Type="CAPModel.Court" Role="Court" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Park">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Court">
+              <PropertyRef Name="ParkId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LineItem__ParkId__4222D4EF">
+          <End Type="CAPModel.Park" Role="Park" Multiplicity="1" />
+          <End Type="CAPModel.LineItem" Role="LineItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Park">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LineItem">
+              <PropertyRef Name="ParkId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ParkProdu__ParkI__30F848ED">
+          <End Type="CAPModel.Park" Role="Park" Multiplicity="1" />
+          <End Type="CAPModel.ParkProduct" Role="ParkProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Park">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ParkProduct">
+              <PropertyRef Name="ParkId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Review__ParkId__3B75D760">
+          <End Type="CAPModel.Park" Role="Park" Multiplicity="1" />
+          <End Type="CAPModel.Review" Role="Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Park">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="ParkId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FavoritePark">
+          <End Type="CAPModel.Customer" Role="Customer" Multiplicity="*" />
+          <End Type="CAPModel.Park" Role="Park" Multiplicity="*" />
+        </Association>
+        <Association Name="ParkSport">
+          <End Type="CAPModel.Park" Role="Park" Multiplicity="*" />
+          <End Type="CAPModel.Sport" Role="Sport" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CAPModelStoreContainer" CdmEntityContainer="CAPEntities">
+          <EntitySetMapping Name="Courts">
+            <EntityTypeMapping TypeName="CAPModel.Court">
+              <MappingFragment StoreEntitySet="Court">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ParkId" ColumnName="ParkId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="CAPModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LineItems">
+            <EntityTypeMapping TypeName="CAPModel.LineItem">
+              <MappingFragment StoreEntitySet="LineItem">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ReservationId" ColumnName="ReservationId" />
+                <ScalarProperty Name="ParkId" ColumnName="ParkId" />
+                <ScalarProperty Name="SportId" ColumnName="SportId" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ParkProducts">
+            <EntityTypeMapping TypeName="CAPModel.ParkProduct">
+              <MappingFragment StoreEntitySet="ParkProduct">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ParkId" ColumnName="ParkId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="CAPModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reservations">
+            <EntityTypeMapping TypeName="CAPModel.Reservation">
+              <MappingFragment StoreEntitySet="Reservation">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="OrderDateTime" ColumnName="OrderDateTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reviews">
+            <EntityTypeMapping TypeName="CAPModel.Review">
+              <MappingFragment StoreEntitySet="Review">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="ParkId" ColumnName="ParkId" />
+                <ScalarProperty Name="PriceRating" ColumnName="PriceRating" />
+                <ScalarProperty Name="AmentiesRating" ColumnName="AmentiesRating" />
+                <ScalarProperty Name="CommentText" ColumnName="CommentText" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sports">
+            <EntityTypeMapping TypeName="CAPModel.Sport">
+              <MappingFragment StoreEntitySet="Sport">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Parks">
+            <EntityTypeMapping TypeName="CAPModel.Park">
+              <MappingFragment StoreEntitySet="Park">
+                <ScalarProperty Name="ParkAddress" ColumnName="ParkAddress" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="FavoritePark" TypeName="CAPModel.FavoritePark" StoreEntitySet="FavoritePark">
+            <EndProperty Name="Park">
+              <ScalarProperty Name="Id" ColumnName="ParkId" />
+            </EndProperty>
+            <EndProperty Name="Customer">
+              <ScalarProperty Name="UserId" ColumnName="CustomerId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="ParkSport" TypeName="CAPModel.ParkSport" StoreEntitySet="ParkSport">
+            <EndProperty Name="Sport">
+              <ScalarProperty Name="Id" ColumnName="SportId" />
+            </EndProperty>
+            <EndProperty Name="Park">
+              <ScalarProperty Name="Id" ColumnName="ParkId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
